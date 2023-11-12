@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun gfiuds(){
+
+    }
 
     override fun onStart() {
         super.onStart()
