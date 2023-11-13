@@ -1,6 +1,9 @@
 package com.example.myapplication.utilits
 
 import android.net.Uri
+import android.provider.ContactsContract
+import androidx.core.database.getStringOrNull
+import com.example.myapplication.models.CommonModel
 import com.example.myapplication.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -63,4 +66,28 @@ inline fun initUser(crossinline function: () -> Unit) {
             }
             function()
         })
+}
+
+fun initContacts() {
+    if (checkPermissions(READ_CONTACTS)){
+        var arrayContacts = arrayListOf<CommonModel>()
+        val cursor = APP_ACTIVITY.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
+        cursor?.let {
+            while (it.moveToNext()){
+                val fullName = it.getStringOrNull(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phone = it.getStringOrNull(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val newModel = CommonModel()
+                newModel.fullname = fullName.toString()
+                newModel.phone = phone.toString().replace(Regex("[\\s,-]"), "")
+                arrayContacts.add(newModel)
+            }
+        }
+        cursor?.close()
+    }
 }
