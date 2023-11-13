@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/horizontal_margin"
+    android:layout_marginHorizontal="@dimen/app_margin"
     android:layout_marginVertical="4dp"
     style="@style/settingsButtons">
 

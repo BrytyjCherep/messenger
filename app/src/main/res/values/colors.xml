@@ -3,9 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#68ACE3</color>
+    <color name="colorPrimaryLight">#A3D2F8</color>
     <color name="colorPrimaryDark">#2573B3</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorGrey">#8C8787</color>
+    <color name="colorGreen">#7CD67C</color>
 
     <!-- Material DEFAULT colors -->
     <color name="material_drawer_primary">#2196F3</color>
