@@ -19,6 +19,7 @@ import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.utilits.CHILD_ID
 import com.example.myapplication.utilits.CHILD_PHONE
 import com.example.myapplication.utilits.CHILD_USERNAME
+import com.example.myapplication.utilits.NODE_PHONES
 import com.example.myapplication.utilits.NODE_USERS
 import com.example.myapplication.utilits.REF_DATABASE_ROOT
 import com.example.myapplication.utilits.replaceActivity
@@ -70,37 +71,32 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
                 dateMap[CHILD_ID] = uid
                 dateMap[CHILD_PHONE] = phoneNumber
 
+                REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                    .addOnFailureListener{ showToast(it.message.toString()) }
+                    .addOnSuccessListener {
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
+                            .addListenerForSingleValueEvent(AppValueEventListener{
+                                if (it.hasChild(CHILD_USERNAME)) {
+                                    REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
+                                        .addOnSuccessListener {
+                                            showToast("Добро пожаловать")
+                                            (activity as RegisterActivity).replaceActivity(MainActivity())
+                                        }
+                                        .addOnFailureListener{showToast(it.message.toString())}
 
-                REF_DATABASE_ROOT.child(NODE_USERS).child(uid)
-                    .addListenerForSingleValueEvent(AppValueEventListener{
-                        if (it.hasChild(CHILD_USERNAME)) {
-                            REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
-                                .addOnCompleteListener {task2 ->
-                                    if(task2.isSuccessful){
-                                        showToast("Добро пожаловать")
-                                        (activity as RegisterActivity).replaceActivity(MainActivity())
-                                    } else {
-                                        showToast(task2.exception?.message.toString())
-                                    }
+                                }
+                                else {
+                                    dateMap[CHILD_USERNAME] = uid
+                                    REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
+                                        .addOnSuccessListener {
+                                            showToast("Добро пожаловать")
+                                            (activity as RegisterActivity).replaceActivity(MainActivity())
+                                        }
+                                        .addOnFailureListener{showToast(it.message.toString())}
                                 }
 
-                        }
-                        else {
-                            dateMap[CHILD_USERNAME] = uid
-                            REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
-                                .addOnCompleteListener {task2 ->
-                                    if(task2.isSuccessful){
-                                        showToast("Добро пожаловать")
-                                        (activity as RegisterActivity).replaceActivity(MainActivity())
-                                    } else {
-                                        showToast(task2.exception?.message.toString())
-                                    }
-                                }
-                        }
-
-                    })
-
-
+                            })
+                    }
             } else {
                 showToast(task.exception?.message.toString())
             }

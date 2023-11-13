@@ -16,10 +16,10 @@ import com.example.myapplication.utilits.USER
 import com.example.myapplication.utilits.showToast
 import java.util.Locale
 
-private var _binding: FragmentChangeUsernameBinding? = null
-private val binding get() = _binding!!
-
 class ChangeUsernameFragment : BaseChangeFragment(R.layout.fragment_change_username) {
+
+    private var _binding: FragmentChangeUsernameBinding? = null
+    private val binding get() = _binding!!
 
     lateinit var mNewUsername:String
 

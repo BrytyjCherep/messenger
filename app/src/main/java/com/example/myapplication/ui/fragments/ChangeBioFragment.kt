@@ -13,10 +13,10 @@ import com.example.myapplication.utilits.CURRENT_UID
 import com.example.myapplication.utilits.USER
 import com.example.myapplication.utilits.showToast
 
-private var _binding: FragmentChangeBioBinding? = null
-private val binding get() = _binding!!
-
 class ChangeBioFragment : BaseChangeFragment(R.layout.fragment_change_bio) {
+
+    private var _binding: FragmentChangeBioBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
