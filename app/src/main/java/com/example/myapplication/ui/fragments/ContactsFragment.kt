@@ -11,6 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ContactItemBinding
 import com.example.myapplication.databinding.FragmentContactsBinding
 import com.example.myapplication.models.CommonModel
+import com.example.myapplication.ui.fragments.single_chat.SingleChatFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.utilits.CURRENT_UID

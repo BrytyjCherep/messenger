@@ -96,7 +96,7 @@ class AppDrawer (){
             .withSelectedItem(-1)
             .withAccountHeader(mHeader)
             .addDrawerItems(
-                PrimaryDrawerItem().withIdentifier(100)
+                /*PrimaryDrawerItem().withIdentifier(100)
                     .withIconTintingEnabled(true)
                     .withName("Создать группу")
                     .withSelectable(false)
@@ -110,13 +110,13 @@ class AppDrawer (){
                     .withIconTintingEnabled(true)
                     .withName("Создать канал")
                     .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_create_channel),
+                    .withIcon(R.drawable.ic_menu_create_channel),*/
                 PrimaryDrawerItem().withIdentifier(103)
                     .withIconTintingEnabled(true)
                     .withName("Контакты")
                     .withSelectable(false)
                     .withIcon(R.drawable.ic_menu_contacts),
-                PrimaryDrawerItem().withIdentifier(104)
+                /*PrimaryDrawerItem().withIdentifier(104)
                     .withIconTintingEnabled(true)
                     .withName("Звонки")
                     .withSelectable(false)
@@ -125,18 +125,18 @@ class AppDrawer (){
                     .withIconTintingEnabled(true)
                     .withName("Избранное")
                     .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_favorites),
+                    .withIcon(R.drawable.ic_menu_favorites),*/
                 PrimaryDrawerItem().withIdentifier(106)
                     .withIconTintingEnabled(true)
                     .withName("Настройки")
                     .withSelectable(false)
                     .withIcon(R.drawable.ic_menu_settings),
                 DividerDrawerItem(),
-                PrimaryDrawerItem().withIdentifier(107)
+                /*PrimaryDrawerItem().withIdentifier(107)
                     .withIconTintingEnabled(true)
                     .withName("Пригласить друга")
                     .withSelectable(false)
-                    .withIcon(R.drawable.ic_menu_invate),
+                    .withIcon(R.drawable.ic_menu_invate),*/
                 PrimaryDrawerItem().withIdentifier(108)
                     .withIconTintingEnabled(true)
                     .withName("Справка")
@@ -159,8 +159,8 @@ class AppDrawer (){
 
     private fun clickToItem(position:Int){
         when (position){
-            7 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
-            4 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
+            2 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
+            1 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
         }
     }
 
