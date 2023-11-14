@@ -15,6 +15,7 @@ import com.example.myapplication.activities.RegisterActivity
 import com.example.myapplication.databinding.FragmentSettingsBinding
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AUTH
+import com.example.myapplication.utilits.AppStates
 import com.example.myapplication.utilits.CHILD_PHOTO_URL
 import com.example.myapplication.utilits.FOLDER_PROFILE_IMAGE
 import com.example.myapplication.utilits.REF_STORAGE_ROOT
@@ -92,6 +93,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.settings_menu_exit -> {
+                AppStates.updateState(AppStates.OFFLINE)
                 AUTH.signOut()
                 (APP_ACTIVITY).replaceActivity(RegisterActivity())
             }

@@ -48,9 +48,13 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
     }
 
     private fun initInfoToolbar() {
+        if (mReceivingUser.fullname.isEmpty()){
+            mToolbarInfo.findViewById<TextView>(R.id.toolbar_chat_fullname).text = contact.fullname
+        } else {
+            mToolbarInfo.findViewById<TextView>(R.id.toolbar_chat_fullname).text = mReceivingUser.fullname
+        }
         mToolbarInfo.findViewById<CircleImageView>(R.id.toolbar_chat_image)
             .downloadAndSetImage(mReceivingUser.photoUrl)
-        mToolbarInfo.findViewById<TextView>(R.id.toolbar_chat_fullname).text = mReceivingUser.fullname
         mToolbarInfo.findViewById<TextView>(R.id.toolbar_chat_status).text = mReceivingUser.state
     }
 
