@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.myapplication.R
+import com.example.myapplication.ui.fragments.AddSingleContactFragment
 import com.example.myapplication.ui.fragments.ContactsFragment
 import com.example.myapplication.ui.fragments.InfoFragment
 import com.example.myapplication.ui.fragments.SettingsFragment
@@ -127,6 +128,11 @@ class AppDrawer (){
                     .withIcon(R.drawable.ic_menu_favorites),*/
                 PrimaryDrawerItem().withIdentifier(106)
                     .withIconTintingEnabled(true)
+                    .withName("Добавить контакт")
+                    .withSelectable(false)
+                    .withIcon(R.drawable.ic_menu_contacts),
+                PrimaryDrawerItem().withIdentifier(106)
+                    .withIconTintingEnabled(true)
                     .withName("Настройки")
                     .withSelectable(false)
                     .withIcon(R.drawable.ic_menu_settings),
@@ -158,9 +164,10 @@ class AppDrawer (){
 
     private fun clickToItem(position:Int){
         when (position){
-            2 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
+            3 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
             1 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
-            4 -> APP_ACTIVITY.replaceFragment(InfoFragment())
+            2 -> APP_ACTIVITY.replaceFragment(AddSingleContactFragment())
+            5 -> APP_ACTIVITY.replaceFragment(InfoFragment())
         }
     }
 
