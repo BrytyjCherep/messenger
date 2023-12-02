@@ -72,7 +72,6 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
                 val dateMap = mutableMapOf<String, Any>()
                 dateMap[CHILD_ID] = uid
                 dateMap[CHILD_PHONE] = phoneNumber
-                dateMap[CHILD_FULLNAME] = "Пользователь"
 
                 REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
                     .addOnFailureListener{ showToast(it.message.toString()) }
@@ -89,6 +88,7 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
 
                                 }
                                 else {
+                                    dateMap[CHILD_FULLNAME] = "Пользователь"
                                     dateMap[CHILD_USERNAME] = uid
                                     REF_DATABASE_ROOT.child(NODE_USERNAMES).child(uid).setValue(uid)
                                     REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
