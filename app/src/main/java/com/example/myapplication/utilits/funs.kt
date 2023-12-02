@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
 fun showToast(message:String){
     Toast.makeText(APP_ACTIVITY, message, Toast.LENGTH_SHORT).show()
 }
