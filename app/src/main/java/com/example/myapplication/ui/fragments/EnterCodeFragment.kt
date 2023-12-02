@@ -16,10 +16,12 @@ import com.example.myapplication.databinding.FragmentEnterCodeBinding
 import com.example.myapplication.utilits.AUTH
 import com.example.myapplication.utilits.AppTextWatcher
 import com.example.myapplication.utilits.AppValueEventListener
+import com.example.myapplication.utilits.CHILD_FULLNAME
 import com.example.myapplication.utilits.CHILD_ID
 import com.example.myapplication.utilits.CHILD_PHONE
 import com.example.myapplication.utilits.CHILD_USERNAME
 import com.example.myapplication.utilits.NODE_PHONES
+import com.example.myapplication.utilits.NODE_USERNAMES
 import com.example.myapplication.utilits.NODE_USERS
 import com.example.myapplication.utilits.REF_DATABASE_ROOT
 import com.example.myapplication.utilits.replaceActivity
@@ -70,6 +72,7 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
                 val dateMap = mutableMapOf<String, Any>()
                 dateMap[CHILD_ID] = uid
                 dateMap[CHILD_PHONE] = phoneNumber
+                dateMap[CHILD_FULLNAME] = "Пользователь"
 
                 REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
                     .addOnFailureListener{ showToast(it.message.toString()) }
@@ -87,6 +90,7 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
                                 }
                                 else {
                                     dateMap[CHILD_USERNAME] = uid
+                                    REF_DATABASE_ROOT.child(NODE_USERNAMES).child(uid).setValue(uid)
                                     REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dateMap)
                                         .addOnSuccessListener {
                                             showToast("Добро пожаловать")
