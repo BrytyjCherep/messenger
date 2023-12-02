@@ -12,6 +12,7 @@ import com.example.myapplication.utilits.NODE_PHONES_CONTACTS
 import com.example.myapplication.utilits.NODE_USERNAMES
 import com.example.myapplication.utilits.REF_DATABASE_ROOT
 import com.example.myapplication.utilits.showToast
+import com.google.firebase.database.FirebaseDatabase
 
 class AddSingleContactFragment : BaseFragment(R.layout.fragment_add_single_contact) {
     private var _binding: FragmentAddSingleContactBinding? = null
@@ -28,7 +29,6 @@ class AddSingleContactFragment : BaseFragment(R.layout.fragment_add_single_conta
         super.onResume()
         binding.addSingleContactBtn.setOnClickListener {
             var contactname = binding.addSingleContactText.text.toString()
-
             if (contactname.isEmpty()){
                 showToast("Имя пустое")
             }
@@ -36,13 +36,19 @@ class AddSingleContactFragment : BaseFragment(R.layout.fragment_add_single_conta
                 var uid: String = ""
                 REF_DATABASE_ROOT.child(NODE_USERNAMES).child(contactname).get().addOnSuccessListener {
                     uid = it.value.toString()
-                    if (uid != CURRENT_UID){
-                        REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID).child(uid).child(CHILD_ID).setValue(uid)
-                            .addOnSuccessListener {
-                                showToast("Пользователь добавлен")
-                            }
-                    } else {
-                        showToast("Вы ввели собственное имя")
+                    if (uid == "null"){
+                        showToast("Такого пользователя не существует")
+                    }
+                    else {
+                        if (uid != CURRENT_UID) {
+                            REF_DATABASE_ROOT.child(NODE_PHONES_CONTACTS).child(CURRENT_UID)
+                                .child(uid).child(CHILD_ID).setValue(uid)
+                                .addOnSuccessListener {
+                                    showToast("Пользователь добавлен")
+                                }
+                        } else {
+                            showToast("Вы ввели собственное имя")
+                        }
                     }
                 }
 
