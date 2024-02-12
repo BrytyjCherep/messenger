@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentChangeUsernameBinding
 import com.example.myapplication.utilits.AppValueEventListener
-import com.example.myapplication.utilits.CHILD_USERNAME
-import com.example.myapplication.utilits.NODE_USERNAMES
-import com.example.myapplication.utilits.NODE_USERS
-import com.example.myapplication.utilits.REF_DATABASE_ROOT
-import com.example.myapplication.utilits.CURRENT_UID
-import com.example.myapplication.utilits.USER
+import com.example.myapplication.database.CHILD_USERNAME
+import com.example.myapplication.database.NODE_USERNAMES
+import com.example.myapplication.database.NODE_USERS
+import com.example.myapplication.database.REF_DATABASE_ROOT
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.USER
+import com.example.myapplication.database.updateCurrentUsername
 import com.example.myapplication.utilits.showToast
 import java.util.Locale
 
@@ -59,35 +60,13 @@ class ChangeUsernameFragment : BaseChangeFragment(R.layout.fragment_change_usern
         REF_DATABASE_ROOT.child(NODE_USERNAMES).child(mNewUsername).setValue(CURRENT_UID)
             .addOnCompleteListener {
                 if (it.isSuccessful){
-                    updateCurrentUsername()
+                    updateCurrentUsername(mNewUsername)
                 }
             }
     }
 
-    private fun updateCurrentUsername() {
-        REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_USERNAME)
-            .setValue(mNewUsername)
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    showToast(getString(R.string.toast_data_update))
-                    deleteOldUsername()
-                } else {
-                    showToast(it.exception?.message.toString())
-                }
-            }
-    }
 
-    private fun deleteOldUsername() {
-        REF_DATABASE_ROOT.child(NODE_USERNAMES).child(USER.username).removeValue()
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    showToast(getString(R.string.toast_data_update))
-                    parentFragmentManager.popBackStack()
-                    USER.username = mNewUsername
-                } else {
-                    showToast(it.exception?.message.toString())
-                }
-            }
-    }
+
+
 
 }

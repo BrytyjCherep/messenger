@@ -14,12 +14,12 @@ import com.example.myapplication.models.CommonModel
 import com.example.myapplication.ui.fragments.single_chat.SingleChatFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
-import com.example.myapplication.utilits.CURRENT_UID
-import com.example.myapplication.utilits.NODE_PHONES_CONTACTS
-import com.example.myapplication.utilits.NODE_USERS
-import com.example.myapplication.utilits.REF_DATABASE_ROOT
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.NODE_PHONES_CONTACTS
+import com.example.myapplication.database.NODE_USERS
+import com.example.myapplication.database.REF_DATABASE_ROOT
 import com.example.myapplication.utilits.downloadAndSetImage
-import com.example.myapplication.utilits.getCommonModel
+import com.example.myapplication.database.getCommonModel
 import com.example.myapplication.utilits.replaceFragment
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions

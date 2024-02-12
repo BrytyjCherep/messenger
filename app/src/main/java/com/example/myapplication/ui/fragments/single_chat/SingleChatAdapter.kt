@@ -8,11 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.models.CommonModel
-import com.example.myapplication.utilits.CURRENT_UID
+import com.example.myapplication.database.CURRENT_UID
 import com.example.myapplication.utilits.asTime
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class SingleChatAdapter : RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 

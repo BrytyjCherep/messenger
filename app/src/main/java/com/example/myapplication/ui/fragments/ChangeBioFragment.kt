@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentChangeBioBinding
-import com.example.myapplication.utilits.CHILD_BIO
-import com.example.myapplication.utilits.NODE_USERS
-import com.example.myapplication.utilits.REF_DATABASE_ROOT
-import com.example.myapplication.utilits.CURRENT_UID
-import com.example.myapplication.utilits.USER
-import com.example.myapplication.utilits.showToast
+import com.example.myapplication.database.CHILD_BIO
+import com.example.myapplication.database.NODE_USERS
+import com.example.myapplication.database.REF_DATABASE_ROOT
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.USER
+import com.example.myapplication.database.setBioToDatabase
 
 class ChangeBioFragment : BaseChangeFragment(R.layout.fragment_change_bio) {
 
@@ -35,15 +35,10 @@ class ChangeBioFragment : BaseChangeFragment(R.layout.fragment_change_bio) {
     override fun change() {
         super.change()
         val newBio = binding.settingsInputBio.text.toString()
-        REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_BIO).setValue(newBio)
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    showToast(getString(R.string.toast_data_update))
-                    USER.bio = newBio
-                    parentFragmentManager.popBackStack()
-                }
-            }
+        setBioToDatabase(newBio)
     }
+
+
 
 
 }

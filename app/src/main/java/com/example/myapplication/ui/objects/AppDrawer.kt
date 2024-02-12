@@ -11,7 +11,7 @@ import com.example.myapplication.ui.fragments.ContactsFragment
 import com.example.myapplication.ui.fragments.InfoFragment
 import com.example.myapplication.ui.fragments.SettingsFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
-import com.example.myapplication.utilits.USER
+import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.utilits.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader
@@ -164,10 +164,10 @@ class AppDrawer (){
 
     private fun clickToItem(position:Int){
         when (position){
-            3 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
-            1 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
-            2 -> APP_ACTIVITY.replaceFragment(AddSingleContactFragment())
-            5 -> APP_ACTIVITY.replaceFragment(InfoFragment())
+            3 -> replaceFragment(SettingsFragment())
+            1 -> replaceFragment(ContactsFragment())
+            2 -> replaceFragment(AddSingleContactFragment())
+            5 -> replaceFragment(InfoFragment())
         }
     }
 

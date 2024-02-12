@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.example.myapplication.activities.RegisterActivity
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.fragments.ChatsFragment
+import com.example.myapplication.ui.fragments.MainFragment
+import com.example.myapplication.ui.fragments.register.EnterPhoneNumberFragment
 import com.example.myapplication.ui.objects.AppDrawer
-import com.example.myapplication.utilits.APP_ACTIVITY
-import com.example.myapplication.utilits.AUTH
+import com.example.myapplication.database.AUTH
 import com.example.myapplication.utilits.AppStates
+import com.example.myapplication.database.initFirebase
+import com.example.myapplication.database.initUser
+import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.READ_CONTACTS
 import com.example.myapplication.utilits.initContacts
-import com.example.myapplication.utilits.initFirebase
-import com.example.myapplication.utilits.initUser
-import com.example.myapplication.utilits.replaceActivity
 import com.example.myapplication.utilits.replaceFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,12 +54,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initFunc() {
+        setSupportActionBar(mToolbar)
         if (AUTH.currentUser!=null) {
-            setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment(), false)
+            replaceFragment(MainFragment(), false)
         } else {
-            replaceActivity(RegisterActivity())
+            replaceFragment(EnterPhoneNumberFragment(), false)
         }
     }
 

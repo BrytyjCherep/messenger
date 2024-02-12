@@ -3,6 +3,9 @@ package com.example.myapplication.utilits
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.database.NODE_USERS
+import com.example.myapplication.database.REF_DATABASE_ROOT
+import com.example.myapplication.database.getCommonModel
 import com.example.myapplication.databinding.ContactItemBinding
 import com.example.myapplication.models.CommonModel
 import com.firebase.ui.database.FirebaseRecyclerAdapter

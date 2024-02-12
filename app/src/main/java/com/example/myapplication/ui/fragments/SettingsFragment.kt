@@ -2,7 +2,6 @@ package com.example.myapplication.ui.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,28 +9,23 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.myapplication.R
-import com.example.myapplication.activities.RegisterActivity
 import com.example.myapplication.databinding.FragmentSettingsBinding
 import com.example.myapplication.utilits.APP_ACTIVITY
-import com.example.myapplication.utilits.AUTH
+import com.example.myapplication.database.AUTH
 import com.example.myapplication.utilits.AppStates
-import com.example.myapplication.utilits.CHILD_PHOTO_URL
-import com.example.myapplication.utilits.FOLDER_PROFILE_IMAGE
-import com.example.myapplication.utilits.REF_STORAGE_ROOT
-import com.example.myapplication.utilits.CURRENT_UID
-import com.example.myapplication.utilits.NODE_USERS
-import com.example.myapplication.utilits.REF_DATABASE_ROOT
-import com.example.myapplication.utilits.USER
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.FOLDER_PROFILE_IMAGE
+import com.example.myapplication.database.REF_STORAGE_ROOT
+import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage
-import com.example.myapplication.utilits.getUrlFromStorage
-import com.example.myapplication.utilits.putImageToStorage
-import com.example.myapplication.utilits.putUrlToDatabase
-import com.example.myapplication.utilits.replaceActivity
+import com.example.myapplication.database.getUrlFromStorage
+import com.example.myapplication.database.putImageToStorage
+import com.example.myapplication.database.putUrlToDatabase
 import com.example.myapplication.utilits.replaceFragment
+import com.example.myapplication.utilits.restartActivity
 import com.example.myapplication.utilits.showToast
-import com.google.firebase.storage.StorageReference
-import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 
@@ -40,6 +34,25 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE)
+                .child(CURRENT_UID)
+
+            putImageToStorage(uri, path){
+                getUrlFromStorage(path){
+                    putUrlToDatabase(it){
+                        binding.settingsUserPhoto.downloadAndSetImage(it)
+                        showToast(getString(R.string.toast_data_update))
+                        USER.photoUrl = it
+                        APP_ACTIVITY.mAppDrawer.updateHeader()
+                    }
+                }
+            }
+        } else {
+            showToast("Файл не выбран")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,14 +87,29 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             changePhotoUser()
         }
         binding.settingsUserPhoto.downloadAndSetImage(USER.photoUrl)
+        /*//создание файла с названием sdfg в папке Downloads
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+            "sdfg"
+        )
+        file.createNewFile()*/
     }
 
     private fun changePhotoUser() {
+        //attachFile() //вызов функции добавления файла
         CropImage.activity()
             .setAspectRatio(1,1)
             .setRequestedSize(600,600)
             .setCropShape(CropImageView.CropShape.OVAL)
             .start(APP_ACTIVITY, this)
+        /*pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))*/
+    }
+
+    //функция открытия окна для добавления файла
+    private fun attachFile(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "*/*"
+        startActivityForResult(intent, 301)
     }
 
 
@@ -95,7 +123,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             R.id.settings_menu_exit -> {
                 AppStates.updateState(AppStates.OFFLINE)
                 AUTH.signOut()
-                (APP_ACTIVITY).replaceActivity(RegisterActivity())
+                restartActivity()
             }
             R.id.settings_menu_change_name -> replaceFragment(ChangeNameFragment())
 
@@ -123,6 +151,19 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             }
         }
     }
+
+    /*//добавление файла
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data!=null){
+            when(requestCode){
+                301 -> {
+                    val uri = data?.data //ссылка на файл
+                    showToast(uri.toString())
+                }
+            }
+        }
+    }*/
 
 
 }

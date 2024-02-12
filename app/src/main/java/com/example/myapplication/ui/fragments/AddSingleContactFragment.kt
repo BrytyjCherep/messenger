@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddSingleContactBinding
-import com.example.myapplication.utilits.CHILD_ID
-import com.example.myapplication.utilits.CURRENT_UID
-import com.example.myapplication.utilits.NODE_PHONES_CONTACTS
-import com.example.myapplication.utilits.NODE_USERNAMES
-import com.example.myapplication.utilits.REF_DATABASE_ROOT
+import com.example.myapplication.database.CHILD_ID
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.NODE_PHONES_CONTACTS
+import com.example.myapplication.database.NODE_USERNAMES
+import com.example.myapplication.database.REF_DATABASE_ROOT
 import com.example.myapplication.utilits.showToast
-import com.google.firebase.database.FirebaseDatabase
 
 class AddSingleContactFragment : BaseFragment(R.layout.fragment_add_single_contact) {
     private var _binding: FragmentAddSingleContactBinding? = null

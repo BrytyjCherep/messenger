@@ -1,5 +1,12 @@
 package com.example.myapplication.utilits
 
+import com.example.myapplication.database.AUTH
+import com.example.myapplication.database.CHILD_STATE
+import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.NODE_USERS
+import com.example.myapplication.database.REF_DATABASE_ROOT
+import com.example.myapplication.database.USER
+
 enum class AppStates(val state:String) {
 
     ONLINE("в сети"),
