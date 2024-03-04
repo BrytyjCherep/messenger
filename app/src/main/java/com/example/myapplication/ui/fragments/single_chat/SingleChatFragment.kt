@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.fragments.single_chat
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,20 +21,31 @@ import com.example.myapplication.ui.fragments.BaseFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.database.CURRENT_UID
+import com.example.myapplication.database.FOLDER_MESSAGE_IMAGE
+import com.example.myapplication.database.FOLDER_PROFILE_IMAGE
 import com.example.myapplication.database.NODE_MESSAGES
 import com.example.myapplication.database.NODE_USERS
 import com.example.myapplication.database.REF_DATABASE_ROOT
+import com.example.myapplication.database.REF_STORAGE_ROOT
 import com.example.myapplication.database.TYPE_TEXT
+import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.database.getCommonModel
+import com.example.myapplication.database.getUrlFromStorage
 import com.example.myapplication.database.getUserModel
+import com.example.myapplication.database.putImageToStorage
+import com.example.myapplication.database.putUrlToDatabase
 import com.example.myapplication.database.sendMessage
+import com.example.myapplication.database.sendMessageAsImage
 import com.example.myapplication.utilits.AppChildEventListener
+import com.example.myapplication.utilits.AppTextWatcher
 import com.example.myapplication.utilits.showToast
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import de.hdodenhof.circleimageview.CircleImageView
 
 class SingleChatFragment(private val contact: CommonModel) :
@@ -74,6 +87,27 @@ class SingleChatFragment(private val contact: CommonModel) :
     private fun initFields() {
         mSwipeRefreshLayout = binding.chatSwipeRefresh
         mLayoutManager = LinearLayoutManager(this.context)
+        binding.chatInputMessage.addTextChangedListener(AppTextWatcher{
+            val string = binding.chatInputMessage.text.toString()
+            if(string.isEmpty()){
+                binding.chatBtnSendMessage.visibility = View.GONE
+                binding.chatBtnAttach.visibility = View.VISIBLE
+            } else {
+                binding.chatBtnSendMessage.visibility = View.VISIBLE
+                binding.chatBtnAttach.visibility = View.GONE
+            }
+        })
+
+        binding.chatBtnAttach.setOnClickListener {
+            attachFile()
+        }
+    }
+
+    private fun attachFile() {
+        CropImage.activity()
+            .setAspectRatio(1,1)
+            .setRequestedSize(250,250)
+            .start(APP_ACTIVITY, this)
     }
 
     private fun initRecycleView() {
@@ -172,6 +206,29 @@ class SingleChatFragment(private val contact: CommonModel) :
             .downloadAndSetImage(mReceivingUser.photoUrl)
         mToolbarInfo.findViewById<TextView>(R.id.toolbar_chat_status).text = mReceivingUser.state
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+            && resultCode == Activity.RESULT_OK && data != null) {
+            val uri = CropImage.getActivityResult(data).uri
+            val messageKey = REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID)
+                .child(contact.id).push().key.toString()
+
+            val path = REF_STORAGE_ROOT
+                .child(FOLDER_MESSAGE_IMAGE)
+                .child(messageKey)
+
+            putImageToStorage(uri, path){
+                getUrlFromStorage(path){
+                    sendMessageAsImage(contact.id, it, messageKey)
+                    mSmoothScrollToPosition = true
+                }
+            }
+        }
+    }
+
+
 
     override fun onPause() {
         super.onPause()

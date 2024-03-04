@@ -8,6 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/block_user_message"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:maxWidth="300dp"
         android:background="@drawable/bg_user_message"
@@ -44,6 +45,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/block_received_message"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:maxWidth="300dp"
         android:background="@drawable/bg_received_message"
@@ -74,6 +76,74 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chat_received_message"
+            tools:text="21:45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_received_image_message"
+        android:visibility="visible"
+        android:layout_width="@dimen/chat_image_width"
+        android:maxWidth="300dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/chat_image_height">
+
+
+        <ImageView
+            android:id="@+id/chat_received_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/chat_received_image_message_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingEnd="10dp"
+            android:layout_marginStart="@dimen/app_small_margin"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_received_image"
+            tools:text="21:45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_user_image_message"
+        android:visibility="visible"
+        android:layout_width="@dimen/chat_image_width"
+        android:maxWidth="300dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/chat_image_height">
+
+
+        <ImageView
+            android:id="@+id/chat_user_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/chat_user_image_message_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingEnd="10dp"
+            android:layout_marginStart="@dimen/app_small_margin"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_user_image"
             tools:text="21:45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
