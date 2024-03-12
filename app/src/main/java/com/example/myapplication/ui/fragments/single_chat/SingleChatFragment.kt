@@ -2,14 +2,16 @@ package com.example.myapplication.ui.fragments.single_chat
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,31 +24,32 @@ import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.database.CURRENT_UID
 import com.example.myapplication.database.FOLDER_MESSAGE_IMAGE
-import com.example.myapplication.database.FOLDER_PROFILE_IMAGE
 import com.example.myapplication.database.NODE_MESSAGES
 import com.example.myapplication.database.NODE_USERS
 import com.example.myapplication.database.REF_DATABASE_ROOT
 import com.example.myapplication.database.REF_STORAGE_ROOT
 import com.example.myapplication.database.TYPE_TEXT
-import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.database.getCommonModel
+import com.example.myapplication.database.getMessageKey
 import com.example.myapplication.database.getUrlFromStorage
 import com.example.myapplication.database.getUserModel
 import com.example.myapplication.database.putImageToStorage
-import com.example.myapplication.database.putUrlToDatabase
 import com.example.myapplication.database.sendMessage
 import com.example.myapplication.database.sendMessageAsImage
+import com.example.myapplication.database.uploadFileToStorage
 import com.example.myapplication.utilits.AppChildEventListener
 import com.example.myapplication.utilits.AppTextWatcher
+import com.example.myapplication.utilits.AppVoiceRecorder
+import com.example.myapplication.utilits.RECORD_AUDIO
+import com.example.myapplication.utilits.checkPermissions
 import com.example.myapplication.utilits.showToast
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SingleChatFragment(private val contact: CommonModel) :
     BaseFragment(R.layout.fragment_single_chat) {
@@ -63,6 +66,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     private var mSmoothScrollToPosition = true
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mLayoutManager: LinearLayoutManager
+    private lateinit var mAppVoiceRecorder: AppVoiceRecorder
 
 
     private var _binding: FragmentSingleChatBinding? = null
@@ -85,23 +89,48 @@ class SingleChatFragment(private val contact: CommonModel) :
     }
 
     private fun initFields() {
+        mAppVoiceRecorder = AppVoiceRecorder()
         mSwipeRefreshLayout = binding.chatSwipeRefresh
         mLayoutManager = LinearLayoutManager(this.context)
         binding.chatInputMessage.addTextChangedListener(AppTextWatcher{
             val string = binding.chatInputMessage.text.toString()
-            if(string.isEmpty()){
+            if(string.isEmpty() || string == "Запись"){
                 binding.chatBtnSendMessage.visibility = View.GONE
                 binding.chatBtnAttach.visibility = View.VISIBLE
+                binding.chatBtnVoice.visibility = View.VISIBLE
             } else {
                 binding.chatBtnSendMessage.visibility = View.VISIBLE
                 binding.chatBtnAttach.visibility = View.GONE
+                binding.chatBtnVoice.visibility = View.GONE
             }
         })
 
         binding.chatBtnAttach.setOnClickListener {
             attachFile()
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            binding.chatBtnVoice.setOnTouchListener { view, motionEvent ->
+                if (checkPermissions(RECORD_AUDIO)){
+                    if (motionEvent.action == MotionEvent.ACTION_DOWN){
+                        binding.chatInputMessage.setText("Запись")
+                        binding.chatBtnVoice.setColorFilter(ContextCompat.getColor(APP_ACTIVITY, com.mikepenz.materialize.R.color.primary))
+                        val messageKey = getMessageKey(contact.id)
+                        mAppVoiceRecorder.startRecord(messageKey)
+                    } else if (motionEvent.action == MotionEvent.ACTION_UP) {
+                        binding.chatInputMessage.setText("")
+                        binding.chatBtnVoice.colorFilter = null
+                        mAppVoiceRecorder.stopRecord { file, messageKey ->
+                            uploadFileToStorage(Uri.fromFile(file), messageKey)
+                        }
+                    }
+                }
+                true
+            }
+        }
     }
+
+
 
     private fun attachFile() {
         CropImage.activity()
@@ -212,8 +241,7 @@ class SingleChatFragment(private val contact: CommonModel) :
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
             && resultCode == Activity.RESULT_OK && data != null) {
             val uri = CropImage.getActivityResult(data).uri
-            val messageKey = REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID)
-                .child(contact.id).push().key.toString()
+            val messageKey = getMessageKey(contact.id)
 
             val path = REF_STORAGE_ROOT
                 .child(FOLDER_MESSAGE_IMAGE)
@@ -230,10 +258,16 @@ class SingleChatFragment(private val contact: CommonModel) :
 
 
 
+
     override fun onPause() {
         super.onPause()
         mToolbarInfo.visibility = View.GONE
         mRefUser.removeEventListener(mListenerInfoToolbar)
         mRefMessages.removeEventListener(mMessagesListener)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mAppVoiceRecorder.releaseRecorder()
     }
 }
