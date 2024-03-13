@@ -23,25 +23,23 @@ import com.example.myapplication.ui.fragments.BaseFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.database.CURRENT_UID
-import com.example.myapplication.database.FOLDER_MESSAGE_IMAGE
 import com.example.myapplication.database.NODE_MESSAGES
 import com.example.myapplication.database.NODE_USERS
 import com.example.myapplication.database.REF_DATABASE_ROOT
-import com.example.myapplication.database.REF_STORAGE_ROOT
 import com.example.myapplication.database.TYPE_TEXT
 import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.database.getCommonModel
 import com.example.myapplication.database.getMessageKey
-import com.example.myapplication.database.getUrlFromStorage
 import com.example.myapplication.database.getUserModel
-import com.example.myapplication.database.putImageToStorage
 import com.example.myapplication.database.sendMessage
-import com.example.myapplication.database.sendMessageAsImage
 import com.example.myapplication.database.uploadFileToStorage
+import com.example.myapplication.ui.fragments.message_recycler_view.views.AppViewFactory
 import com.example.myapplication.utilits.AppChildEventListener
 import com.example.myapplication.utilits.AppTextWatcher
 import com.example.myapplication.utilits.AppVoiceRecorder
 import com.example.myapplication.utilits.RECORD_AUDIO
+import com.example.myapplication.utilits.TYPE_MESSAGE_IMAGE
+import com.example.myapplication.utilits.TYPE_MESSAGE_VOICE
 import com.example.myapplication.utilits.checkPermissions
 import com.example.myapplication.utilits.showToast
 import com.google.firebase.database.DatabaseReference
@@ -121,7 +119,8 @@ class SingleChatFragment(private val contact: CommonModel) :
                         binding.chatInputMessage.setText("")
                         binding.chatBtnVoice.colorFilter = null
                         mAppVoiceRecorder.stopRecord { file, messageKey ->
-                            uploadFileToStorage(Uri.fromFile(file), messageKey)
+                            uploadFileToStorage(Uri.fromFile(file), messageKey, contact.id, TYPE_MESSAGE_VOICE)
+                            mSmoothScrollToPosition = true
                         }
                     }
                 }
@@ -155,11 +154,11 @@ class SingleChatFragment(private val contact: CommonModel) :
             val message = it.getCommonModel()
 
             if (mSmoothScrollToPosition){
-                mAdapter.addItemToBottom(message){
+                mAdapter.addItemToBottom(AppViewFactory.getView(message)){
                     mRecyclerView.smoothScrollToPosition(mAdapter.itemCount)
                 }
             } else {
-                mAdapter.addItemToTop(message){
+                mAdapter.addItemToTop(AppViewFactory.getView(message)){
                     mSwipeRefreshLayout.isRefreshing = false
                 }
             }
@@ -243,16 +242,8 @@ class SingleChatFragment(private val contact: CommonModel) :
             val uri = CropImage.getActivityResult(data).uri
             val messageKey = getMessageKey(contact.id)
 
-            val path = REF_STORAGE_ROOT
-                .child(FOLDER_MESSAGE_IMAGE)
-                .child(messageKey)
-
-            putImageToStorage(uri, path){
-                getUrlFromStorage(path){
-                    sendMessageAsImage(contact.id, it, messageKey)
-                    mSmoothScrollToPosition = true
-                }
-            }
+            uploadFileToStorage(uri, messageKey, contact.id, TYPE_MESSAGE_IMAGE)
+            mSmoothScrollToPosition = true
         }
     }
 

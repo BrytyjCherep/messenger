@@ -21,7 +21,7 @@ import com.example.myapplication.database.REF_STORAGE_ROOT
 import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.database.getUrlFromStorage
-import com.example.myapplication.database.putImageToStorage
+import com.example.myapplication.database.putFileToStorage
 import com.example.myapplication.database.putUrlToDatabase
 import com.example.myapplication.utilits.replaceFragment
 import com.example.myapplication.utilits.restartActivity
@@ -39,7 +39,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE)
                 .child(CURRENT_UID)
 
-            putImageToStorage(uri, path){
+            putFileToStorage(uri, path){
                 getUrlFromStorage(path){
                     putUrlToDatabase(it){
                         binding.settingsUserPhoto.downloadAndSetImage(it)
@@ -139,7 +139,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE)
                 .child(CURRENT_UID)
             
-            putImageToStorage(uri, path){
+            putFileToStorage(uri, path){
                 getUrlFromStorage(path){
                     putUrlToDatabase(it){
                         binding.settingsUserPhoto.downloadAndSetImage(it)
