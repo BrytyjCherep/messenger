@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.myapplication.R
-import com.example.myapplication.ui.fragments.AddSingleContactFragment
-import com.example.myapplication.ui.fragments.ContactsFragment
-import com.example.myapplication.ui.fragments.InfoFragment
-import com.example.myapplication.ui.fragments.SettingsFragment
+import com.example.myapplication.ui.screens.AddSingleContactFragment
+import com.example.myapplication.ui.screens.ContactsFragment
+import com.example.myapplication.ui.screens.InfoFragment
+import com.example.myapplication.ui.screens.SettingsFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.database.USER
 import com.example.myapplication.utilits.downloadAndSetImage

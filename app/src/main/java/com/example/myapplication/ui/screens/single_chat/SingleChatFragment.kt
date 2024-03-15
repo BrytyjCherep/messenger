@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragments.single_chat
+package com.example.myapplication.ui.screens.single_chat
 
 import android.app.Activity
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSingleChatBinding
 import com.example.myapplication.models.CommonModel
 import com.example.myapplication.models.UserModel
-import com.example.myapplication.ui.fragments.BaseFragment
+import com.example.myapplication.ui.screens.BaseFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.database.CURRENT_UID
@@ -33,7 +33,7 @@ import com.example.myapplication.database.getMessageKey
 import com.example.myapplication.database.getUserModel
 import com.example.myapplication.database.sendMessage
 import com.example.myapplication.database.uploadFileToStorage
-import com.example.myapplication.ui.fragments.message_recycler_view.views.AppViewFactory
+import com.example.myapplication.ui.message_recycler_view.views.AppViewFactory
 import com.example.myapplication.utilits.AppChildEventListener
 import com.example.myapplication.utilits.AppTextWatcher
 import com.example.myapplication.utilits.AppVoiceRecorder
@@ -260,5 +260,6 @@ class SingleChatFragment(private val contact: CommonModel) :
     override fun onDestroyView() {
         super.onDestroyView()
         mAppVoiceRecorder.releaseRecorder()
+        mAdapter.onDestroy()
     }
 }

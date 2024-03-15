@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragments
+package com.example.myapplication.ui.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentChangeBioBinding
-import com.example.myapplication.database.CHILD_BIO
-import com.example.myapplication.database.NODE_USERS
-import com.example.myapplication.database.REF_DATABASE_ROOT
-import com.example.myapplication.database.CURRENT_UID
 import com.example.myapplication.database.USER
 import com.example.myapplication.database.setBioToDatabase
 

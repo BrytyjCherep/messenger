@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.fragments.MainFragment
-import com.example.myapplication.ui.fragments.register.EnterPhoneNumberFragment
+import com.example.myapplication.ui.screens.MainFragment
+import com.example.myapplication.ui.screens.register.EnterPhoneNumberFragment
 import com.example.myapplication.ui.objects.AppDrawer
 import com.example.myapplication.database.AUTH
 import com.example.myapplication.utilits.AppStates

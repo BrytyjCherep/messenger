@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragments
+package com.example.myapplication.ui.screens
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent

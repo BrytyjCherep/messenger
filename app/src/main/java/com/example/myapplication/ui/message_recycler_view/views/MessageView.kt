@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragments.message_recycler_view.views
+package com.example.myapplication.ui.message_recycler_view.views
 
 interface MessageView {
     val id: String

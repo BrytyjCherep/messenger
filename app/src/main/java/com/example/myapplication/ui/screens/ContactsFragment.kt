@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragments
+package com.example.myapplication.ui.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ContactItemBinding
 import com.example.myapplication.databinding.FragmentContactsBinding
 import com.example.myapplication.models.CommonModel
-import com.example.myapplication.ui.fragments.single_chat.SingleChatFragment
+import com.example.myapplication.ui.screens.single_chat.SingleChatFragment
 import com.example.myapplication.utilits.APP_ACTIVITY
 import com.example.myapplication.utilits.AppValueEventListener
 import com.example.myapplication.database.CURRENT_UID
