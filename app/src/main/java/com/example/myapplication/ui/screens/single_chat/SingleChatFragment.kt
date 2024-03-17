@@ -32,6 +32,7 @@ import com.example.myapplication.utilits.downloadAndSetImage
 import com.example.myapplication.database.getCommonModel
 import com.example.myapplication.database.getMessageKey
 import com.example.myapplication.database.getUserModel
+import com.example.myapplication.database.saveToMainList
 import com.example.myapplication.database.sendMessage
 import com.example.myapplication.database.uploadFileToStorage
 import com.example.myapplication.ui.message_recycler_view.views.AppViewFactory
@@ -40,10 +41,12 @@ import com.example.myapplication.utilits.AppTextWatcher
 import com.example.myapplication.utilits.AppVoiceRecorder
 import com.example.myapplication.utilits.PICK_FILE_REQUEST_CODE
 import com.example.myapplication.utilits.RECORD_AUDIO
+import com.example.myapplication.utilits.TYPE_CHAT
 import com.example.myapplication.utilits.TYPE_MESSAGE_FILE
 import com.example.myapplication.utilits.TYPE_MESSAGE_IMAGE
 import com.example.myapplication.utilits.TYPE_MESSAGE_VOICE
 import com.example.myapplication.utilits.checkPermissions
+import com.example.myapplication.utilits.getFilenameFromUri
 import com.example.myapplication.utilits.showToast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
@@ -249,11 +252,14 @@ class SingleChatFragment(private val contact: CommonModel) :
                 showToast("Введите сообщение")
             } else {
                 sendMessage(message, contact.id, TYPE_TEXT) {
+                    saveToMainList(contact.id, TYPE_CHAT)
                     binding.chatInputMessage.setText("")
                 }
             }
         }
     }
+
+
 
 
     private fun initInfoToolbar() {
@@ -282,12 +288,14 @@ class SingleChatFragment(private val contact: CommonModel) :
                 PICK_FILE_REQUEST_CODE -> {
                     val uri = data.data
                     val messageKey = getMessageKey(contact.id)
-                    uri?.let { uploadFileToStorage(it, messageKey, contact.id, TYPE_MESSAGE_FILE) }
+                    val filename = getFilenameFromUri(uri!!)
+                    uploadFileToStorage(uri, messageKey, contact.id, TYPE_MESSAGE_FILE, filename)
                     mSmoothScrollToPosition = true
                 }
             }
         }
     }
+
 
 
     override fun onPause() {
