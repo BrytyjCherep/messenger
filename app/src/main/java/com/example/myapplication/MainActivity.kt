@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.ui.screens.MainFragment
+import com.example.myapplication.ui.screens.main_list.MainListFragment
 import com.example.myapplication.ui.screens.register.EnterPhoneNumberFragment
 import com.example.myapplication.ui.objects.AppDrawer
 import com.example.myapplication.database.AUTH
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         if (AUTH.currentUser!=null) {
             mAppDrawer.create()
-            replaceFragment(MainFragment(), false)
+            replaceFragment(MainListFragment(), false)
         } else {
             replaceFragment(EnterPhoneNumberFragment(), false)
         }

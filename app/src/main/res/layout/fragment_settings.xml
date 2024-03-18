@@ -81,15 +81,10 @@
             app:layout_constraintStart_toStartOf="parent"
             style="@style/normalText" />
 
-        <TextView
-            android:id="@+id/settings_label_phone_number"
-            android:text="@string/settings_label_phone_number"
-            app:layout_constraintTop_toBottomOf="@id/settings_phone_number"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/smallText" />
+
 
         <View
-            app:layout_constraintTop_toBottomOf="@id/settings_label_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/settings_phone_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/separator" />

@@ -282,6 +282,7 @@ class SingleChatFragment(private val contact: CommonModel) :
                     val uri = CropImage.getActivityResult(data).uri
                     val messageKey = getMessageKey(contact.id)
                     uploadFileToStorage(uri, messageKey, contact.id, TYPE_MESSAGE_IMAGE)
+                    saveToMainList(contact.id, TYPE_CHAT)
                     mSmoothScrollToPosition = true
                 }
 
@@ -290,6 +291,7 @@ class SingleChatFragment(private val contact: CommonModel) :
                     val messageKey = getMessageKey(contact.id)
                     val filename = getFilenameFromUri(uri!!)
                     uploadFileToStorage(uri, messageKey, contact.id, TYPE_MESSAGE_FILE, filename)
+                    saveToMainList(contact.id, TYPE_CHAT)
                     mSmoothScrollToPosition = true
                 }
             }
