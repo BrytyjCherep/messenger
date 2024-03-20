@@ -26,11 +26,21 @@ class HolderVoiceMessage(view:View):RecyclerView.ViewHolder(view), MessageHolder
     private val chatUserBtnPlay:ImageView = view.findViewById(R.id.chat_user_btn_play)
     private val chatUserBtnStop:ImageView = view.findViewById(R.id.chat_user_btn_stop)
 
+    private val chatUserMessageStatusUnchecked: ImageView = view.findViewById(R.id.chat_voice_status_unchecked)
+    private val chatUserMessageStatusChecked: ImageView = view.findViewById(R.id.chat_voice_status_checked)
+
     override fun drawMessage(view: MessageView) {
         if (view.from == CURRENT_UID) {
             blockReceivedVoiceMessage.visibility = View.GONE
             blockUserVoiceMessage.visibility = View.VISIBLE
             chatUserVoiceMessageTime.text = view.timeStamp.asTime()
+            if (view.status == "checked") {
+                chatUserMessageStatusChecked.visibility = View.VISIBLE
+                chatUserMessageStatusUnchecked.visibility = View.GONE
+            } else {
+                chatUserMessageStatusChecked.visibility = View.GONE
+                chatUserMessageStatusUnchecked.visibility = View.VISIBLE
+            }
         } else {
             blockReceivedVoiceMessage.visibility = View.VISIBLE
             blockUserVoiceMessage.visibility = View.GONE

@@ -13,27 +13,33 @@ class AppViewFactory {
                     message.id,
                     message.from,
                     message.timeStamp.toString(),
-                    message.fileUrl
+                    message.fileUrl,
+                    message.text,
+                    message.status
                 )
                 TYPE_MESSAGE_VOICE -> ViewVoiceMessage(
                     message.id,
                     message.from,
                     message.timeStamp.toString(),
-                    message.fileUrl
+                    message.fileUrl,
+                    message.text,
+                    message.status,
                 )
                 TYPE_MESSAGE_FILE -> ViewFileMessage(
                     message.id,
                     message.from,
                     message.timeStamp.toString(),
                     message.fileUrl,
-                    message.text
+                    message.text,
+                    message.status
                 )
                 else -> ViewTextMessage(
                     message.id,
                     message.from,
                     message.timeStamp.toString(),
                     message.fileUrl,
-                    message.text
+                    message.text,
+                    message.status
                 )
             }
         }

@@ -29,7 +29,7 @@ class MainListFragment : Fragment(R.layout.fragment_main_list) {
 
     override fun onResume() {
         super.onResume()
-        APP_ACTIVITY.title = "Telegram"
+        APP_ACTIVITY.title = "LinevMessenger"
         APP_ACTIVITY.mAppDrawer.enableDrawer()
         hideKeyboard()
         initRecyclerView()

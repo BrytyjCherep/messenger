@@ -14,7 +14,8 @@ data class CommonModel(
     var from: String = "",
     var timeStamp: Any = "",
     var fileUrl: String = "empty",
-    var lastMessage: String = ""
+    var lastMessage: String = "",
+    var status: String = ""
 
 
 ) {

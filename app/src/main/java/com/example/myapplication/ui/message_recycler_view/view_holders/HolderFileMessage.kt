@@ -39,12 +39,22 @@ class HolderFileMessage(view: View) : RecyclerView.ViewHolder(view), MessageHold
     private val chatReceivedProgressBar: ProgressBar =
         view.findViewById(R.id.chat_received_progress_bar)
 
+    private val chatUserMessageStatusUnchecked: ImageView = view.findViewById(R.id.chat_file_status_unchecked)
+    private val chatUserMessageStatusChecked: ImageView = view.findViewById(R.id.chat_file_status_checked)
+
     override fun drawMessage(view: MessageView) {
         if (view.from == CURRENT_UID) {
             blockReceivedFileMessage.visibility = View.GONE
             blockUserFileMessage.visibility = View.VISIBLE
             chatUserFileMessageTime.text = view.timeStamp.asTime()
             chatUserFileName.text = view.text
+            if (view.status == "checked") {
+                chatUserMessageStatusChecked.visibility = View.VISIBLE
+                chatUserMessageStatusUnchecked.visibility = View.GONE
+            } else {
+                chatUserMessageStatusChecked.visibility = View.GONE
+                chatUserMessageStatusUnchecked.visibility = View.VISIBLE
+            }
         } else {
             blockReceivedFileMessage.visibility = View.VISIBLE
             blockUserFileMessage.visibility = View.GONE

@@ -93,6 +93,7 @@ fun sendMessage(message: String, receivingUserId: String, typeText: String, func
     mapMessage[CHILD_TEXT] = message
     mapMessage[CHILD_ID] = messageKey.toString()
     mapMessage[CHILD_TIMESTAMP] = ServerValue.TIMESTAMP
+    mapMessage[CHILD_STATUS] = "unchecked"
 
     val mapDialog = hashMapOf<String, Any>()
     mapDialog["$refDialogUser/$messageKey"] = mapMessage
@@ -115,6 +116,13 @@ fun updateCurrentUsername(newUserName: String) {
                 showToast(it.exception?.message.toString())
             }
         }
+}
+
+fun updateMessageStatus(receivingUserId: String, messageId: String) {
+    REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID).child(receivingUserId).child(messageId).child(CHILD_STATUS)
+        .setValue("checked")
+    /*REF_DATABASE_ROOT.child(NODE_MESSAGES).child(receivingUserId).child(CURRENT_UID).child(messageId).child(CHILD_STATUS)
+        .setValue("checked")*/
 }
 
 private fun deleteOldUsername(newUserName: String) {
@@ -165,6 +173,7 @@ fun sendMessageAsFile(receivingUserId: String, fileUrl: String, messageKey: Stri
     mapMessage[CHILD_TIMESTAMP] = ServerValue.TIMESTAMP
     mapMessage[CHILD_FILE_URL] = fileUrl
     mapMessage[CHILD_TEXT] = filename
+    mapMessage[CHILD_STATUS] = "unchecked"
 
     val mapDialog = hashMapOf<String, Any>()
     mapDialog["$refDialogUser/$messageKey"] = mapMessage

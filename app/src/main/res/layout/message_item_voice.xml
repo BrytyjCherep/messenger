@@ -38,13 +38,13 @@
 
         <TextView
             android:id="@+id/chat_received_voice_message_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:paddingEnd="10dp"
             android:layout_marginStart="@dimen/app_small_margin"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#484747"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="21:45" />
 
@@ -82,15 +82,38 @@
 
         <TextView
             android:id="@+id/chat_user_voice_message_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:paddingEnd="10dp"
             android:layout_marginStart="@dimen/app_small_margin"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#484747"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="30dp"
             tools:text="21:45" />
+
+        <ImageView
+            android:id="@+id/chat_voice_status_unchecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingStart="5dp"
+            android:src="@drawable/ic_message_status_unchecked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chat_user_voice_message_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/chat_voice_status_checked"
+            android:visibility="gone"
+            android:paddingTop="3dp"
+            android:paddingStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message_status_checked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chat_user_voice_message_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

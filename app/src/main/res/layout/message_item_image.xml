@@ -10,6 +10,7 @@
         android:id="@+id/block_received_image_message"
         android:visibility="visible"
         android:layout_width="@dimen/chat_image_width"
+        android:background="@drawable/bg_received_message"
         android:maxWidth="300dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,29 +20,30 @@
 
         <ImageView
             android:id="@+id/chat_received_image"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/chat_received_image_message_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="180dp"/>
 
         <TextView
             android:id="@+id/chat_received_image_message_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
+            android:gravity="end"
             android:paddingEnd="10dp"
-            android:layout_marginStart="@dimen/app_small_margin"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/chat_received_image"
+            android:paddingTop="5dp"
+            android:textColor="#484747"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_received_image"
             tools:text="21:45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/block_user_image_message"
+        android:background="@drawable/bg_user_message"
         android:visibility="visible"
         android:layout_width="@dimen/chat_image_width"
         android:maxWidth="300dp"
@@ -53,24 +55,48 @@
 
         <ImageView
             android:id="@+id/chat_user_image"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/chat_user_image_message_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="180dp"/>
 
         <TextView
             android:id="@+id/chat_user_image_message_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
             android:layout_marginStart="@dimen/app_small_margin"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/chat_user_image"
+            android:textColor="#484747"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_user_image"
             tools:text="21:45" />
+
+        <ImageView
+            android:id="@+id/chat_image_status_unchecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingStart="5dp"
+            android:src="@drawable/ic_message_status_unchecked"
+            app:layout_constraintTop_toBottomOf="@+id/chat_user_image"
+            app:layout_constraintStart_toEndOf="@id/chat_user_image_message_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/chat_image_status_checked"
+            android:visibility="gone"
+            android:paddingTop="3dp"
+            android:paddingStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message_status_checked"
+            app:layout_constraintTop_toBottomOf="@+id/chat_user_image"
+            app:layout_constraintStart_toEndOf="@id/chat_user_image_message_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

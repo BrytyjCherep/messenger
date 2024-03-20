@@ -34,6 +34,7 @@ import com.example.myapplication.database.getMessageKey
 import com.example.myapplication.database.getUserModel
 import com.example.myapplication.database.saveToMainList
 import com.example.myapplication.database.sendMessage
+import com.example.myapplication.database.updateMessageStatus
 import com.example.myapplication.database.uploadFileToStorage
 import com.example.myapplication.ui.message_recycler_view.views.AppViewFactory
 import com.example.myapplication.utilits.AppChildEventListener
@@ -50,6 +51,7 @@ import com.example.myapplication.utilits.getFilenameFromUri
 import com.example.myapplication.utilits.showToast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.theartofdev.edmodo.cropper.CropImage
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
@@ -185,6 +187,7 @@ class SingleChatFragment(private val contact: CommonModel) :
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.layoutManager = mLayoutManager
+
         mMessagesListener = AppChildEventListener {
 
             val message = it.getCommonModel()
@@ -193,12 +196,15 @@ class SingleChatFragment(private val contact: CommonModel) :
                 mAdapter.addItemToBottom(AppViewFactory.getView(message)) {
                     mRecyclerView.smoothScrollToPosition(mAdapter.itemCount)
                 }
+                updateMessageStatus(contact.id, message.id)
             } else {
                 mAdapter.addItemToTop(AppViewFactory.getView(message)) {
                     mSwipeRefreshLayout.isRefreshing = false
                 }
+
             }
         }
+
 
         mRefMessages.limitToLast(mCountMessages).addChildEventListener(mMessagesListener)
 
