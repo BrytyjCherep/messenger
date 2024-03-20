@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -75,6 +76,7 @@ class SingleChatFragment(private val contact: CommonModel) :
     private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var mAppVoiceRecorder: AppVoiceRecorder
     private lateinit var mBottomSheetBehavior: BottomSheetBehavior<*>
+    private lateinit var mRefreshBtn: ImageView
 
 
     private var _binding: FragmentSingleChatBinding? = null
@@ -97,6 +99,9 @@ class SingleChatFragment(private val contact: CommonModel) :
     }
 
     private fun initFields() {
+
+        mRefreshBtn = APP_ACTIVITY.findViewById(R.id.chat_btn_refresh)
+        mRefreshBtn.setOnClickListener { refreshChat() }
 
         mBottomSheetBehavior =
             BottomSheetBehavior.from(APP_ACTIVITY.findViewById(R.id.bottom_sheet_choice))
@@ -152,6 +157,13 @@ class SingleChatFragment(private val contact: CommonModel) :
                 true
             }
         }
+    }
+
+    private fun refreshChat() {
+        mSmoothScrollToPosition = true
+        mCountMessages = 15
+        mRefMessages.removeEventListener(mMessagesListener)
+        initRecycleView()
     }
 
     private fun attach() {

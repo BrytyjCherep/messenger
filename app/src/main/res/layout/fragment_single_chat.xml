@@ -7,12 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.screens.single_chat.SingleChatFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.screens.single_chat.SingleChatFragment">
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/chat_swipe_refresh"
@@ -27,6 +26,7 @@
                 android:background="@color/colorPrimaryLight"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <EditText
@@ -70,6 +70,17 @@
             android:padding="@dimen/appPadding"
             android:background="@color/colorAccent"
             android:src="@drawable/ic_voice"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/chat_btn_refresh"
+            app:layout_constraintTop_toTopOf="@+id/chat_input_message" />
+
+        <ImageView
+            android:id="@+id/chat_btn_refresh"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/appPadding"
+            android:visibility="visible"
+            android:src="@drawable/ic_btn_refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/chat_input_message" />
