@@ -119,10 +119,10 @@ fun updateCurrentUsername(newUserName: String) {
 }
 
 fun updateMessageStatus(receivingUserId: String, messageId: String) {
-    REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID).child(receivingUserId).child(messageId).child(CHILD_STATUS)
-        .setValue("checked")
-    /*REF_DATABASE_ROOT.child(NODE_MESSAGES).child(receivingUserId).child(CURRENT_UID).child(messageId).child(CHILD_STATUS)
+    /*REF_DATABASE_ROOT.child(NODE_MESSAGES).child(CURRENT_UID).child(receivingUserId).child(messageId).child(CHILD_STATUS)
         .setValue("checked")*/
+    REF_DATABASE_ROOT.child(NODE_MESSAGES).child(receivingUserId).child(CURRENT_UID).child(messageId).child(CHILD_STATUS)
+        .setValue("checked")
 }
 
 private fun deleteOldUsername(newUserName: String) {

@@ -116,10 +116,12 @@ class SingleChatFragment(private val contact: CommonModel) :
                 binding.chatBtnSendMessage.visibility = View.GONE
                 binding.chatBtnAttach.visibility = View.VISIBLE
                 binding.chatBtnVoice.visibility = View.VISIBLE
+                binding.chatBtnRefresh.visibility = View.VISIBLE
             } else {
                 binding.chatBtnSendMessage.visibility = View.VISIBLE
                 binding.chatBtnAttach.visibility = View.GONE
                 binding.chatBtnVoice.visibility = View.GONE
+                binding.chatBtnRefresh.visibility = View.GONE
             }
         })
 
